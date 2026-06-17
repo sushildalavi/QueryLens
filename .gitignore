@@ -42,3 +42,4 @@ pgdata/
 docs/screenshots/package.json
 docs/screenshots/package-lock.json
 docs/screenshots/node_modules/
+backend/benchmark_results/

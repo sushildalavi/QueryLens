@@ -1,2 +1,0 @@
-run_id,events,produce_duration_seconds,events_per_second,ingest_latency_ms_p50,ingest_latency_ms_p95,ingest_latency_ms_p99,kafka_lag_peak,kafka_lag_recovery_seconds,duplicate_events_skipped,dlq_events,persistence_failures,latency_sample_count
-20260527031125,1000,0.204,4904.65,143123.05,279233.91,290754.73,154696.0,,6.0,0.0,0.0,86511
