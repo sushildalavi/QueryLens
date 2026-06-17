@@ -66,7 +66,11 @@ jobs:
       - name: Install deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake pkg-config protobuf-compiler libprotobuf-dev libpqxx-dev librdkafka-dev libssl-dev
+          sudo apt-get install -y build-essential cmake pkg-config protobuf-compiler libprotobuf-dev libpq-dev librdkafka-dev libssl-dev
+          git clone --depth=1 --branch 7.7.5 https://github.com/jtv/libpqxx.git /tmp/libpqxx
+          cmake -S /tmp/libpqxx -B /tmp/libpqxx/build -DCMAKE_CXX_STANDARD=20 -DSKIP_BUILD_TEST=ON
+          cmake --build /tmp/libpqxx/build -j$(nproc)
+          sudo cmake --install /tmp/libpqxx/build
       - name: Build collector
         run: |
           cd collector
