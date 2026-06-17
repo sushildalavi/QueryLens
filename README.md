@@ -1,4 +1,4 @@
-# QueryLens v2 — PostgreSQL Query Observability (Production-Style)
+# QueryLens
 
 QueryLens is a reproducible local systems project for PostgreSQL performance observability.
 It collects query telemetry, fingerprints normalized SQL, captures safe plan snapshots, and detects deterministic regressions.
