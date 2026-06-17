@@ -49,7 +49,7 @@ async def produce_events(run_id: str, n: int):
                 captured_at=ts,
             )
             payload = evt.SerializeToString()
-            key = f"querylens:{settings.ENVIRONMENT}:{fp}".encode("utf-8")
+            key = f"querylens:{settings.ENVIRONMENT}:{fp}".encode()
             await producer.send_and_wait(settings.KAFKA_TOPIC_QUERY_TELEMETRY, payload, key=key)
         await producer.flush()
         finished = time.perf_counter()

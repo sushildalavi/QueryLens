@@ -10,7 +10,11 @@ from sqlalchemy.orm import Session
 from app.core.explain_parser import parse_explain
 from app.core.regression_detector import MetricSnapshot, PlanSnapshot, detect_regressions
 from app.models import CollectorStatus, QueryFingerprint, QueryMetric, QueryPlan, QueryRegression
-from app.observability.metrics import duplicate_events_total, failed_explain_captures_total, regression_events_total
+from app.observability.metrics import (
+    duplicate_events_total,
+    failed_explain_captures_total,
+    regression_events_total,
+)
 
 IngestResult = Literal["inserted", "duplicate"]
 
