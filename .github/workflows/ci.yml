@@ -68,7 +68,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake pkg-config protobuf-compiler libprotobuf-dev libpq-dev librdkafka-dev libssl-dev
           git clone --depth=1 --branch 7.9.2 https://github.com/jtv/libpqxx.git /tmp/libpqxx
-          cmake -S /tmp/libpqxx -B /tmp/libpqxx/build -DCMAKE_CXX_STANDARD=20 -DSKIP_BUILD_TEST=ON -DBUILD_SHARED_LIBS=ON
+          cmake -S /tmp/libpqxx -B /tmp/libpqxx/build -DCMAKE_CXX_STANDARD=20 -DSKIP_BUILD_TEST=ON -DBUILD_SHARED_LIBS=OFF
           cmake --build /tmp/libpqxx/build -j$(nproc)
           sudo cmake --install /tmp/libpqxx/build
       - name: Build collector
