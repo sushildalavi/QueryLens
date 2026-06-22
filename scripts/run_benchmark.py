@@ -89,21 +89,45 @@ def _pending_artifact(args: argparse.Namespace, note: str) -> dict[str, Any]:
 def _run_live_benchmark(args: argparse.Namespace) -> dict[str, Any] | None:
     benchmark_script = BACKEND_DIR / "app" / "bench" / "telemetry_benchmark.py"
     if not benchmark_script.exists():
-        return None
+        return {
+            "status": "pending",
+            "note": f"live benchmark unavailable: missing benchmark script at {benchmark_script}",
+        }
 
-    completed = subprocess.run(
-        [sys.executable, str(benchmark_script), "--events", str(args.events)],
-        cwd=BACKEND_DIR,
-        capture_output=True,
-        text=True,
-        timeout=args.timeout_seconds,
-    )
+    try:
+        completed = subprocess.run(
+            [sys.executable, str(benchmark_script), "--events", str(args.events)],
+            cwd=BACKEND_DIR,
+            capture_output=True,
+            text=True,
+            timeout=args.timeout_seconds,
+        )
+    except subprocess.TimeoutExpired:
+        return {
+            "status": "pending",
+            "note": f"live benchmark timed out after {args.timeout_seconds:.0f}s",
+        }
+    except Exception as exc:
+        return {
+            "status": "pending",
+            "note": f"live benchmark failed to start: {exc}",
+        }
+
     if completed.returncode != 0:
-        return None
+        stderr = (completed.stderr or "").strip()
+        stdout = (completed.stdout or "").strip()
+        tail = stderr or stdout or f"exit code {completed.returncode}"
+        return {
+            "status": "pending",
+            "note": f"live benchmark subprocess failed: {tail[-500:]}",
+        }
 
     result_path = BACKEND_DIR / "benchmark_results" / f"querylens_benchmark_{args.events}.json"
     if not result_path.exists():
-        return None
+        return {
+            "status": "pending",
+            "note": f"live benchmark finished but did not write {result_path}",
+        }
 
     payload = json.loads(result_path.read_text(encoding="utf-8"))
     return {
@@ -132,10 +156,10 @@ def main() -> None:
         artifact = _pending_artifact(args, "pending mode requested")
     else:
         live = _run_live_benchmark(args)
-        if live is None:
-            artifact = _pending_artifact(args, "live benchmark unavailable")
-        else:
+        if live and live.get("status") == "measured":
             artifact = build_artifact(args, live=live)
+        else:
+            artifact = _pending_artifact(args, str((live or {}).get("note", "live benchmark unavailable")))
 
     json_path.write_text(json.dumps(artifact, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     md_path.write_text(render_markdown(artifact) + "\n", encoding="utf-8")

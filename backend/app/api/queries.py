@@ -8,9 +8,11 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
+from app.core.performance_agent import build_performance_agent_report
 from app.core.recommendations import recommend_for_query
 from app.models import QueryFingerprint, QueryMetric, QueryPlan, QueryRegression
 from app.schemas import (
+    AgentReport,
     FingerprintOut,
     MetricPoint,
     Page,
@@ -210,3 +212,33 @@ def get_query_recommendations(fid: UUID, db: Session = Depends(get_db)):
         regression_type=latest_regression.regression_type if latest_regression else None,
     )
     return RecommendationList(items=[RecommendationOut.model_validate(item.to_dict()) for item in items])
+
+
+@router.get("/{fid}/agent-report", response_model=AgentReport)
+def get_query_agent_report(fid: UUID, db: Session = Depends(get_db)):
+    fp = _get_fp_or_404(str(fid), db)
+    latest_metric = (
+        db.query(QueryMetric)
+        .filter_by(fingerprint_id=fp.id)
+        .order_by(QueryMetric.captured_at.desc())
+        .first()
+    )
+    latest_plan = (
+        db.query(QueryPlan)
+        .filter_by(fingerprint_id=fp.id)
+        .order_by(QueryPlan.captured_at.desc())
+        .first()
+    )
+    latest_regression = (
+        db.query(QueryRegression)
+        .filter_by(fingerprint_id=fp.id)
+        .order_by(QueryRegression.created_at.desc())
+        .first()
+    )
+    report = build_performance_agent_report(
+        normalized_query=fp.normalized_query,
+        latest_metric=latest_metric,
+        latest_plan=latest_plan,
+        latest_regression=latest_regression,
+    )
+    return AgentReport.model_validate(report)

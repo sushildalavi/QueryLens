@@ -94,6 +94,27 @@ class RecommendationList(BaseModel):
     items: list[RecommendationOut]
 
 
+class AgentTraceStep(BaseModel):
+    step_name: str
+    input_summary: str
+    tool_name: str | None = None
+    tool_args_summary: str | None = None
+    output_summary: str
+    latency_ms: float | None = None
+    status: str
+    error: str | None = None
+
+
+class AgentReport(BaseModel):
+    regression_summary: str
+    evidence_fields: list[str]
+    recommendation: RecommendationOut | None
+    safe_sql: str | None
+    confidence: float
+    safety_warnings: list[str]
+    trace: list[AgentTraceStep]
+
+
 class Page[T](BaseModel):
     items: list[T]
     total: int
