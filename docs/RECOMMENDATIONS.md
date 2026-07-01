@@ -2,7 +2,7 @@
 
 ## What this feature does
 
-QueryLens now exposes deterministic, rule-based recommendations for a single query fingerprint.
+PlanTrace now exposes deterministic, rule-based recommendations for a single query fingerprint.
 
 The backend inspects the latest metric snapshot, latest plan snapshot, and latest regression type, then returns suggestions such as:
 

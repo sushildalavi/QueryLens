@@ -222,8 +222,8 @@ async def main():
 
     out_dir = Path("benchmark_results")
     out_dir.mkdir(exist_ok=True)
-    (out_dir / f"querylens_benchmark_{args.events}.json").write_text(json.dumps(out, indent=2))
-    with (out_dir / f"querylens_benchmark_{args.events}.csv").open("w", newline="") as f:
+    (out_dir / f"plantrace_benchmark_{args.events}.json").write_text(json.dumps(out, indent=2))
+    with (out_dir / f"plantrace_benchmark_{args.events}.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(out.keys()))
         w.writeheader()
         w.writerow(out)

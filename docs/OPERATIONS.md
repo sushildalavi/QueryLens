@@ -1,4 +1,4 @@
-# Operations
+# PlanTrace Operations
 
 ## Reliability features implemented
 
@@ -29,6 +29,8 @@
 - `querylens_placement_failures_total`
 - `querylens_kafka_consumer_lag`
 - `querylens_api_request_latency_seconds`
+
+The `querylens_*` metric prefix is retained for compatibility with the existing dashboards and alerts.
 
 ## Alert rules
 

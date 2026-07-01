@@ -1,4 +1,4 @@
-# Demo Workflow
+# PlanTrace Demo Workflow
 
 ## Quick start
 
@@ -13,7 +13,7 @@ Open http://localhost:3030 for the dashboard, http://localhost:3000 for Grafana 
 
 1. Starts all services (`docker compose up -d`)
 2. Waits for Postgres and Kafka/Redpanda to become healthy
-3. Runs Alembic migrations (`querylens` schema)
+3. Runs Alembic migrations against the internal `querylens` schema retained for compatibility
 4. Seeds demo data: 5k users, 500 products, 50k orders, 150k order items, 200k events, 10k vector items
 5. Resets `pg_stat_statements` and truncates prior results
 6. Ensures relational index (`orders.user_id`) and HNSW index (`vector_items.embedding`) are present

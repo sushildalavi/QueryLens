@@ -1,31 +1,31 @@
 groups:
-  - name: querylens-alerts
+  - name: plantrace-alerts
     rules:
-      - alert: QueryLensHighConsumerLag
+      - alert: PlanTraceHighConsumerLag
         expr: max(querylens_kafka_consumer_lag) > 100
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "QueryLens consumer lag is high"
+          summary: "PlanTrace consumer lag is high"
 
-      - alert: QueryLensPersistenceFailures
+      - alert: PlanTracePersistenceFailures
         expr: increase(querylens_telemetry_persist_failures_total[5m]) > 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "QueryLens persistence failures detected"
+          summary: "PlanTrace persistence failures detected"
 
-      - alert: QueryLensDLQEvents
+      - alert: PlanTraceDLQEvents
         expr: increase(querylens_dlq_events_total[5m]) > 0
         for: 1m
         labels:
           severity: warning
         annotations:
-          summary: "QueryLens routed events to DLQ"
+          summary: "PlanTrace routed events to DLQ"
 
-      - alert: QueryLensCriticalRegressions
+      - alert: PlanTraceCriticalRegressions
         expr: increase(querylens_regression_events_total{severity="critical"}[10m]) > 0
         for: 1m
         labels:
@@ -33,10 +33,10 @@ groups:
         annotations:
           summary: "Critical regressions detected"
 
-      - alert: QueryLensHighApiP95
+      - alert: PlanTraceHighApiP95
         expr: histogram_quantile(0.95, sum by (le) (rate(querylens_api_request_latency_seconds_bucket[5m]))) > 0.5
         for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "QueryLens API p95 latency is elevated"
+          summary: "PlanTrace API p95 latency is elevated"

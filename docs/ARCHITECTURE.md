@@ -1,4 +1,4 @@
-# QueryLens v2 Architecture
+# PlanTrace Architecture
 
 ## Data plane
 
@@ -29,6 +29,8 @@ The placement simulator uses synthetic tenant telemetry to compare first-fit, gr
 - `query_reports`
 - `collector_status`
 - `dlq_events`
+
+The internal schema and metric prefixes stay on `querylens` for backwards compatibility with the existing Docker, migration, and dashboard wiring.
 
 ## Ops plane
 

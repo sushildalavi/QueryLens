@@ -1,6 +1,8 @@
-# QueryLens | Database Telemetry & Placement Optimization Platform
+# PlanTrace
 
-QueryLens is a local database systems project focused on PostgreSQL query telemetry, EXPLAIN ANALYZE diagnostics, optimizer regression detection, and a synthetic multi-tenant SQL placement simulator.
+PlanTrace is a local database systems project focused on PostgreSQL query telemetry, EXPLAIN ANALYZE diagnostics, optimizer regression detection, and a synthetic multi-tenant SQL placement simulator.
+
+GitHub About / description: `SQL Query Diagnostics & Workload Optimization Platform`
 
 It is intentionally honest in scope:
 
@@ -8,6 +10,7 @@ It is intentionally honest in scope:
 - Optimizer regression detection is deterministic
 - Placement is a simulated what-if engine over synthetic tenant telemetry
 - It is not a production Azure SQL deployment and does not claim to manage live cloud clusters
+- The backend still uses the internal `querylens` schema and `querylens_*` metrics for compatibility; the public project name is PlanTrace
 
 ## Architecture
 

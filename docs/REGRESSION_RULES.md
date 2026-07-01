@@ -1,4 +1,4 @@
-# Regression Rules
+# PlanTrace Regression Rules
 
 All rules are deterministic — no ML or heuristics. They compare consecutive collector snapshots and flag regressions when thresholds are exceeded.
 
@@ -35,6 +35,7 @@ Results are sorted by severity before returning. When both `severe_latency_spike
 - Diagnostics are broader plan-health findings such as missing index candidates, nested-loop explosions, and spill signals
 - Regressions are thresholded comparisons between consecutive snapshots
 - The placement simulator is separate from both systems and runs only on synthetic tenant telemetry
+- The internal `querylens` schema and metric names are compatibility details, not public branding
 
 ## pgvector / HNSW Bypass
 

@@ -63,11 +63,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Link to="/" className="flex items-center gap-2.5 group">
             <span className="relative grid place-items-center w-7 h-7 rounded-md bg-gradient-to-br from-accent/20 to-accent/0 ring-1 ring-accent/30 transition-all group-hover:ring-accent/60 group-hover:shadow-glow-soft">
               <span className="font-mono font-bold text-accent text-[11px] tracking-tighter">
-                QL
+                PT
               </span>
             </span>
             <span className="font-display text-sm font-semibold text-primary tracking-tightest">
-              QueryLens
+              PlanTrace
             </span>
             <span className="hidden sm:inline-block text-2xs text-muted font-mono uppercase tracking-widest">
               postgres
@@ -86,7 +86,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </span>
             <span className="num text-secondary">{now}</span>
             <a
-              href="https://github.com/sushildalavi/QueryLens-PostgreSQL-Query-Performance-Monitor"
+              href="https://github.com/sushildalavi/plantrace"
               target="_blank"
               rel="noreferrer"
               className="grid place-items-center w-7 h-7 rounded-md ring-1 ring-edge hover:ring-edge-bright hover:bg-panel-2 transition-colors"
@@ -102,7 +102,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </main>
       <footer className="border-t border-edge text-2xs text-muted py-4 px-6 mt-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between font-mono">
-          <span>querylens · pg_stat_statements + EXPLAIN JSON</span>
+          <span>plantrace · pg_stat_statements + EXPLAIN JSON</span>
           <span className="hidden sm:inline">deterministic regression rules</span>
         </div>
       </footer>

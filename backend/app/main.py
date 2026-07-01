@@ -37,8 +37,8 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="QueryLens",
-    description="PostgreSQL query performance monitor",
+    title="PlanTrace",
+    description="SQL query diagnostics and synthetic workload optimization platform",
     version="2.0.0",
     lifespan=lifespan,
 )

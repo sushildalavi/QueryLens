@@ -1,7 +1,7 @@
 {
   "id": null,
-  "uid": "querylens-overview",
-  "title": "QueryLens Overview",
+  "uid": "plantrace-overview",
+  "title": "PlanTrace Overview",
   "schemaVersion": 39,
   "version": 1,
   "refresh": "10s",

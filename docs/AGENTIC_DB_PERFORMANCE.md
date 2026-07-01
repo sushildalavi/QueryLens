@@ -1,6 +1,6 @@
-# QueryLens Agentic DB Performance
+# PlanTrace Agentic DB Performance
 
-The QueryLens agentic report is a deterministic wrapper around the existing recommendation engine.
+The PlanTrace agentic report is a deterministic wrapper around the existing recommendation engine.
 
 ## Workflow
 

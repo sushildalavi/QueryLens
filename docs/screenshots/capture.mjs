@@ -1,4 +1,4 @@
-// Playwright screenshot capture for QueryLens dashboard.
+// Playwright screenshot capture for PlanTrace dashboard.
 // Usage: node capture.mjs <fingerprint_id>
 // Run from repo root with the dashboard already running on :3030.
 

@@ -2,7 +2,7 @@
 
 ## What the project does
 
-QueryLens is a PostgreSQL observability system that streams query telemetry, classifies regressions, and surfaces them in a backend plus frontend stack.
+PlanTrace is a PostgreSQL observability system that streams query telemetry, classifies regressions, and surfaces them in a backend plus frontend stack.
 
 ## Why it is technically impressive
 
@@ -52,6 +52,6 @@ QueryLens is a PostgreSQL observability system that streams query telemetry, cla
 
 ## Verification Log
 
-- `python3 /Users/sushildalavi/Desktop/Github/QueryLens/scripts/run_benchmark.py --pending --events 10000 --workers 4` - pass - 2026-06-17 - Wrote pending JSON and Markdown artifacts under `benchmarks/`.
-- `python3 /Users/sushildalavi/Desktop/Github/QueryLens/scripts/run_benchmark.py --pending --events 100 --workers 2 --output-dir /tmp/querylens-bench --artifact-name querylens_test` - pass - 2026-06-17 - Verified the pending artifact path with a custom output location.
+- `python3 /Users/sushildalavi/Desktop/Github/plantrace/scripts/run_benchmark.py --pending --events 10000 --workers 4` - pass - 2026-06-17 - Wrote pending JSON and Markdown artifacts under `benchmarks/`.
+- `python3 /Users/sushildalavi/Desktop/Github/plantrace/scripts/run_benchmark.py --pending --events 100 --workers 2 --output-dir /tmp/plantrace-bench --artifact-name plantrace_test` - pass - 2026-06-17 - Verified the pending artifact path with a custom output location.
 - Direct helper checks against `scripts/run_benchmark.py` - pass - 2026-06-17 - Verified pending and live artifact shapes through direct assertions.

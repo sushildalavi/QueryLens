@@ -1,4 +1,4 @@
-# QueryLens Agentic AI Upgrade Plan
+# PlanTrace Agentic AI Upgrade Plan
 
 ## Current relevant capabilities
 - Deterministic recommendations already exist in `backend/app/core/recommendations.py`.

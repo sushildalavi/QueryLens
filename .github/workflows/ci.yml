@@ -32,6 +32,9 @@ jobs:
       - name: Regression eval smoke
         run: cd backend && python ../scripts/evaluate_regression_detection.py
 
+      - name: Compose config
+        run: docker compose config
+
       - name: Integration tests (Docker)
         run: cd backend && pytest tests/test_collector.py tests/test_api_smoke.py -v
         env:

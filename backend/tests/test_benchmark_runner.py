@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
 from scripts.run_benchmark import build_artifact  # noqa: E402
 
 
-def test_querylens_benchmark_artifact_schema():
+def test_plantrace_benchmark_artifact_schema():
     artifact = build_artifact(Namespace(events=10000, workers=4, output_dir="benchmarks", artifact_name=""))
     assert artifact["status"] == "pending"
     assert artifact["events"] == 10000
@@ -19,7 +19,7 @@ def test_querylens_benchmark_artifact_schema():
     assert "p95_ingestion_latency_ms" in artifact
 
 
-def test_querylens_benchmark_artifact_with_live_metrics():
+def test_plantrace_benchmark_artifact_with_live_metrics():
     artifact = build_artifact(
         Namespace(events=100, workers=2, output_dir="benchmarks", artifact_name=""),
         live={

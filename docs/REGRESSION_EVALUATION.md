@@ -1,6 +1,6 @@
 # Regression Evaluation
 
-QueryLens includes deterministic rule evaluation over seeded synthetic scenarios:
+PlanTrace includes deterministic rule evaluation over seeded synthetic scenarios:
 
 - `scripts/evaluate_regression_detection.py`
 

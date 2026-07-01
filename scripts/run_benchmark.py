@@ -13,7 +13,7 @@ BACKEND_DIR = ROOT / "backend"
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run or summarize a QueryLens benchmark.")
+    parser = argparse.ArgumentParser(description="Run or summarize a PlanTrace benchmark.")
     parser.add_argument("--events", type=int, default=10000)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--output-dir", default="benchmarks")
@@ -53,7 +53,7 @@ def build_artifact(args: argparse.Namespace, live: dict[str, Any] | None = None,
 
 def render_markdown(artifact: dict[str, Any]) -> str:
     lines = [
-        "# QueryLens Benchmark",
+        "# PlanTrace Benchmark",
         "",
         f"- status: {artifact['status']}",
         f"- events: {artifact['events']}",
@@ -122,7 +122,7 @@ def _run_live_benchmark(args: argparse.Namespace) -> dict[str, Any] | None:
             "note": f"live benchmark subprocess failed: {tail[-500:]}",
         }
 
-    result_path = BACKEND_DIR / "benchmark_results" / f"querylens_benchmark_{args.events}.json"
+    result_path = BACKEND_DIR / "benchmark_results" / f"plantrace_benchmark_{args.events}.json"
     if not result_path.exists():
         return {
             "status": "pending",
@@ -146,7 +146,7 @@ def main() -> None:
     args = build_parser().parse_args()
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    name = args.artifact_name or f"benchmark_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+    name = args.artifact_name or f"plantrace_benchmark_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
     json_path = output_dir / f"{name}.json"
     md_path = output_dir / f"{name}.md"
 
