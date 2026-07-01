@@ -79,6 +79,27 @@ export interface QueryDetail {
   regression_count: number;
 }
 
+export interface DiagnosticOut {
+  id: string;
+  fingerprint_id: string;
+  plan_id: string | null;
+  diagnostic_type: string;
+  severity: string;
+  title: string;
+  explanation: string;
+  suggested_action: string | null;
+  evidence_json: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface QueryDiagnostics {
+  fingerprint: FingerprintOut;
+  latest_plan: PlanSummary | null;
+  latest_metric: MetricPoint | null;
+  diagnostics: DiagnosticOut[];
+  diagnostic_count: number;
+}
+
 export interface RecommendationItem {
   id: string;
   title: string;
@@ -99,6 +120,7 @@ export interface CollectResult {
   metrics: number;
   plans: number;
   regressions: number;
+  diagnostics: number;
   duration_ms: number;
 }
 
@@ -109,4 +131,75 @@ export interface ReportResult {
     normalized_query: string;
     findings: string[];
   };
+}
+
+export interface ResourceVector {
+  cpu: number;
+  memory: number;
+  storage: number;
+  iops: number;
+  p95_latency_ms: number;
+}
+
+export interface TenantTelemetry {
+  tenant_id: string;
+  database_name: string;
+  region: string;
+  sql_fingerprint: string;
+  normalized_sql: string;
+  calls: number;
+  mean_exec_time_ms: number;
+  p95_latency_ms: number;
+  cpu: number;
+  memory: number;
+  storage: number;
+  iops: number;
+  migration_cost: number;
+}
+
+export interface PlacementNode {
+  node_id: string;
+  region: string;
+  cluster_id: string;
+  availability_zone: string;
+  capacity: ResourceVector;
+  used: ResourceVector;
+  overloaded: boolean;
+  tenants: string[];
+  overload_score: number;
+}
+
+export interface PlacementComparison {
+  overloaded_nodes_before: number;
+  overloaded_nodes_after: number;
+  balance_before: number;
+  balance_after: number;
+  migration_cost: number;
+  hotspot_reduction: number;
+  p95_decision_latency_ms: number;
+}
+
+export interface PlacementAlgorithm {
+  algorithm: string;
+  nodes: PlacementNode[];
+  comparison: PlacementComparison;
+}
+
+export interface PlacementSimulation {
+  seed: number;
+  tenants: number;
+  regions: number;
+  clusters_per_region: number;
+  nodes_per_cluster: number;
+  telemetry: TenantTelemetry[];
+  algorithms: PlacementAlgorithm[];
+}
+
+export interface PlacementSimulationRequest {
+  seed?: number;
+  tenants?: number;
+  regions?: number;
+  clusters_per_region?: number;
+  nodes_per_cluster?: number;
+  algorithms?: string[] | null;
 }

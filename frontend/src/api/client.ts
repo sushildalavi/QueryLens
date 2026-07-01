@@ -2,9 +2,12 @@ import type {
   CollectResult,
   MetricPoint,
   Page,
+  PlacementSimulation,
+  PlacementSimulationRequest,
   PlanDetail,
   PlanSummary,
   QueryDetail,
+  QueryDiagnostics,
   QuerySummary,
   RecommendationList,
   RegressionListItem,
@@ -48,6 +51,9 @@ export const api = {
 
   query: (fid: string) => request<QueryDetail>(`/api/queries/${fid}`),
 
+  diagnostics: (fid: string) =>
+    request<QueryDiagnostics>(`/api/queries/${fid}/diagnostics`),
+
   recommendations: (fid: string) =>
     request<RecommendationList>(`/api/queries/${fid}/recommendations`),
 
@@ -79,4 +85,10 @@ export const api = {
     request<ReportResult>(`/api/reports/${fid}`),
 
   collectorStatus: () => request<CollectorStatusItem[]>(`/api/collector/status`),
+
+  placementSimulation: (payload?: PlacementSimulationRequest) =>
+    request<PlacementSimulation>("/api/placement/simulate", {
+      method: "POST",
+      body: JSON.stringify(payload ?? {}),
+    }),
 };

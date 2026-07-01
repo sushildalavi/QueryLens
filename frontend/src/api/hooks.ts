@@ -25,6 +25,15 @@ export function useQuery_(fid: string) {
   });
 }
 
+export function useDiagnostics(fid: string) {
+  return useQuery({
+    queryKey: ["diagnostics", fid],
+    queryFn: () => api.diagnostics(fid),
+    staleTime: STALE,
+    enabled: !!fid,
+  });
+}
+
 export function useMetrics(fid: string, limit = 200) {
   return useQuery({
     queryKey: ["metrics", fid, limit],
@@ -101,5 +110,11 @@ export function useCollectorStatus() {
     queryKey: ["collector-status"],
     queryFn: api.collectorStatus,
     staleTime: STALE,
+  });
+}
+
+export function usePlacementSimulation() {
+  return useMutation({
+    mutationFn: api.placementSimulation,
   });
 }
