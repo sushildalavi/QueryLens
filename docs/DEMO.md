@@ -22,6 +22,12 @@ Open http://localhost:3030 for the dashboard, http://localhost:3000 for Grafana 
 9. Runs 1500 degraded iterations — midway through, drops `orders_user_id_idx` and `vector_items_embedding_hnsw_idx`
 10. Runs the C++ collector again — should detect regressions vs. the baseline
 
+## Diagnostics and placement
+
+- Query detail pages now surface stored diagnostics alongside the plan tree and regression history
+- The placement simulator page runs against synthetic tenant telemetry and compares first-fit, greedy best-fit, weighted scoring, and local-search strategies
+- The placement view is a what-if simulator only; it does not manage real Azure SQL clusters or real tenant databases
+
 ## Expected regressions
 
 After the demo completes, the Regressions page should show:

@@ -14,3 +14,6 @@
 - DLQ count/rate
 - Kafka consumer lag
 - regression classes detected
+- diagnostic latency
+- placement decision latency
+- overloaded-node counts before/after synthetic placement
