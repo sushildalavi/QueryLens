@@ -1,14 +1,14 @@
 from __future__ import annotations
 
+import sys
 from argparse import Namespace
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.run_benchmark import build_artifact
+from scripts.run_benchmark import build_artifact  # noqa: E402
 
 
 def test_querylens_benchmark_artifact_schema():

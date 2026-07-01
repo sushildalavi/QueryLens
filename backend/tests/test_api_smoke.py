@@ -75,7 +75,21 @@ def test_collect_run(client):
     data = r.json()
     assert "fingerprints" in data
     assert "regressions" in data
+    assert "diagnostics" in data
     assert "duration_ms" in data
+
+
+def test_placement_simulate(client):
+    r = client.post("/api/placement/simulate", json={"seed": 7, "tenants": 12, "regions": 2, "clusters_per_region": 1, "nodes_per_cluster": 2})
+    assert r.status_code == 200
+    data = r.json()
+    assert "algorithms" in data
+    assert data["algorithms"]
+
+
+def test_query_diagnostics_route_shape(client):
+    r = client.get("/api/queries/00000000-0000-0000-0000-000000000000/diagnostics")
+    assert r.status_code == 404
 
 
 def test_docs_available(client):
