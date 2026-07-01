@@ -56,6 +56,8 @@ flowchart LR
 
 ## Quick Start
 
+Requires Python 3.12+ (the backend uses PEP 695 generic syntax) and Node 20+.
+
 ```bash
 make setup
 make build
@@ -104,6 +106,8 @@ cd backend && .venv/bin/python -m pytest tests -v
 cd backend && .venv/bin/ruff check app tests
 cd frontend && npm run build
 ```
+
+`npm run build` prints a Rollup chunk-size warning (main bundle > 500 kB); this is non-blocking and does not affect the build output.
 
 ## Resume-Ready Summary
 
