@@ -1,39 +1,57 @@
-# QueryLens
+# QueryLens | Database Telemetry & Placement Optimization Platform
 
-QueryLens is a local observability stack for PostgreSQL query performance.
+QueryLens is a local database systems project focused on PostgreSQL query telemetry, EXPLAIN ANALYZE diagnostics, optimizer regression detection, and a synthetic multi-tenant SQL placement simulator.
 
-It collects query telemetry, fingerprints normalized SQL, captures safe plan snapshots, and flags deterministic regressions. The system also includes idempotent ingestion, bounded retries, and DLQ handling so failures stay visible.
+It is intentionally honest in scope:
+
+- PostgreSQL query telemetry and plan capture are real
+- Optimizer regression detection is deterministic
+- Placement is a simulated what-if engine over synthetic tenant telemetry
+- It is not a production Azure SQL deployment and does not claim to manage live cloud clusters
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    A[(PostgreSQL)] --> B[C++ telemetry collector]
-    B --> C[(Kafka / Redpanda topics)]
-    C --> D[FastAPI consumer + regression engine]
-    D --> E[(PostgreSQL query storage)]
+    A[(PostgreSQL)] --> B[C++ collector]
+    B --> C[(Redpanda / Kafka)]
+    C --> D[FastAPI ingestion + diagnostics]
+    D --> E[(PostgreSQL query store)]
     D --> F[React dashboard]
     D --> G[Prometheus / Grafana]
+    F --> H[Placement simulator]
+    H --> I[Synthetic tenant telemetry]
 ```
 
-## What’s included
+## What it does
 
-- SQL normalization and fingerprinting
-- Vector operator detection
-- Safe EXPLAIN gating
-- Kafka-backed telemetry ingestion
-- Regression classification
-- Prometheus metrics and Grafana dashboards
-- Demo, benchmark, and evaluation workflows
+- Fingerprints normalized SQL so semantically identical statements collapse to one hash
+- Captures query metrics and EXPLAIN JSON / EXPLAIN ANALYZE evidence
+- Detects deterministic optimizer regressions:
+  - row-estimate mismatch
+  - sequential-scan fallback
+  - missing index candidates
+  - temp / sort / hash spill
+  - nested-loop explosion
+  - pgvector / HNSW bypass
+- Stores query plans, regressions, and diagnostic findings in PostgreSQL
+- Streams telemetry through Kafka / Redpanda with bounded retry and DLQ handling
+- Simulates multi-tenant placement strategies:
+  - first-fit baseline
+  - greedy best-fit
+  - weighted scoring
+  - local-search rebalancer
 
-## Not included
+## Layout
 
-- Exactly-once delivery guarantees
-- Kubernetes manifests
-- gRPC APIs
-- Managed cloud deployment
+- `backend/` FastAPI service, collector, diagnostics, placement simulator, migrations, and tests
+- `collector/` C++ telemetry collector
+- `frontend/` React dashboard
+- `docs/` architecture, demo, operations, regression rules, and benchmark notes
+- `scripts/` benchmark and evaluation helpers
+- `infra/` Postgres init SQL and Prometheus config
 
-## Quick start
+## Quick Start
 
 ```bash
 make setup
@@ -45,29 +63,49 @@ make test
 make demo
 ```
 
-## Benchmarks
+## Core Screens
+
+- Dashboard: query latency, regressions, collector status
+- Query detail: fingerprint, plan tree, recommendations, diagnostics, and report generation
+- Regressions: deterministic regression feed
+- Placement simulator: synthetic tenant telemetry and before/after placement comparison
+
+Screenshots live under [docs/screenshots](docs/screenshots/).
+
+## API Examples
 
 ```bash
-make benchmark N=10000
-make benchmark N=50000
-make benchmark-100k
-make regression-eval
+curl http://localhost:8765/health
+curl http://localhost:8765/api/queries
+curl http://localhost:8765/api/queries/<fingerprint-id>/diagnostics
+curl -X POST http://localhost:8765/api/placement/simulate \
+  -H 'content-type: application/json' \
+  -d '{"seed":42,"tenants":48,"regions":3,"clusters_per_region":2,"nodes_per_cluster":3}'
 ```
 
-## Recommendations
+## Benchmark Methodology
 
-- Query-specific deterministic recommendations live in `docs/RECOMMENDATIONS.md`
-- The query detail page surfaces the latest rule-based suggestions beside plan and metric history
+The benchmark workflow is documented in [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 
-## Resume-safe summary
+In short:
 
-Built a PostgreSQL observability platform that streams telemetry, detects regressions deterministically, and provides reproducible evaluation and monitoring workflows end to end.
+- telemetry benchmark events are produced into Kafka
+- the backend consumer measures ingest latency, lag, duplicates, and DLQ counts
+- regression detection uses deterministic seeded scenarios
+- placement simulation is evaluated on synthetic tenant telemetry, not live customer clusters
 
-## Portfolio Proof
+## Testing
 
-- Architecture and evaluation: [docs/PORTFOLIO_PROOF.md](docs/PORTFOLIO_PROOF.md)
-- Benchmark artifacts: [docs/BENCHMARKS.md](docs/BENCHMARKS.md)
-- Recommendations: [docs/RECOMMENDATIONS.md](docs/RECOMMENDATIONS.md)
-- Demo and local mode: use the repo `make` targets documented above
-- Test commands: backend pytest, frontend `npm run build`
-- Evidence: regression evaluation docs under `docs/`
+```bash
+cd backend && .venv/bin/python -m pytest tests -v
+cd backend && .venv/bin/ruff check app tests
+cd frontend && npm run build
+```
+
+## Resume-Ready Summary
+
+Built a database telemetry platform that streams PostgreSQL query events from a C++ collector through Kafka into FastAPI and React dashboards for query debugging, optimizer regression analysis, and synthetic placement simulation.
+
+Implemented deterministic EXPLAIN ANALYZE diagnostics and query fingerprinting to detect row-estimate mismatch, sequential-scan fallbacks, temp spills, nested-loop explosions, and pgvector/HNSW bypass patterns.
+
+Added a synthetic multi-tenant placement engine with first-fit, greedy best-fit, weighted scoring, and local-search strategies to compare overloaded-node counts, utilization balance, migration cost, hotspot reduction, and p95 placement latency.
